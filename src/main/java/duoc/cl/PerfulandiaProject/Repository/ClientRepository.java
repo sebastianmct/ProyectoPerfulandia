@@ -1,6 +1,5 @@
 package duoc.cl.PerfulandiaProject.Repository;
 
-
 import duoc.cl.PerfulandiaProject.Model.Client;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +8,7 @@ import java.util.List;
 
 @Repository
 public class ClientRepository {
+
     private List<Client> clients = new ArrayList<>();
 
     // Obtener todos los clientes
@@ -18,8 +18,8 @@ public class ClientRepository {
             output += "Id Cliente: " + temp.getClientId() + "\n";
             output += "Nombre: " + temp.getClientName() + "\n";
             output += "Email: " + temp.getClientEmail() + "\n";
-            output += "Contraseña: " + temp.getClientPassword() + "\n\n";
-            output += "Telefono: " + temp.getClientPhone() + "\n\n";
+            output += "Contraseña: " + temp.getClientPassword() + "\n";
+            output += "Telefono: " + temp.getClientPhone() + "\n";
             output += "Direccion: " + temp.getClientAddress() + "\n\n";
         }
         if (output.isEmpty()) {
@@ -37,8 +37,8 @@ public class ClientRepository {
                 output += "Id Cliente: " + temp.getClientId() + "\n";
                 output += "Nombre: " + temp.getClientName() + "\n";
                 output += "Email: " + temp.getClientEmail() + "\n";
-                output += "Contraseña: " + temp.getClientPassword() + "\n\n";
-                output += "Telefono: " + temp.getClientPhone() + "\n\n";
+                output += "Contraseña: " + temp.getClientPassword() + "\n";
+                output += "Telefono: " + temp.getClientPhone() + "\n";
                 output += "Direccion: " + temp.getClientAddress() + "\n\n";
                 return output;
             }

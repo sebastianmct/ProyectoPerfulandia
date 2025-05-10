@@ -1,13 +1,13 @@
 package duoc.cl.PerfulandiaProject.Service;
 
 import duoc.cl.PerfulandiaProject.Model.Client;
-import duoc.cl.PerfulandiaProject.Model.Product;
 import duoc.cl.PerfulandiaProject.Repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
+
     @Autowired
     private ClientRepository clientRepository;
 

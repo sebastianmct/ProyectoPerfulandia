@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Sale {
-    private int SaleId;
-    private String ClientId;
-    private LocalDate SaleDate;
-    private double SaleTotal;
-    private List<SalesLine> SalesLine;
+    private int saleId;
+    private String clientId;
+    private LocalDate saleDate;
+    private double saleTotal;
+    private List<SalesLine> salesLine;
 }

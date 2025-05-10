@@ -1,17 +1,17 @@
 package duoc.cl.PerfulandiaProject.Event;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class SaleRegisteredEvent {
-    private int SaleId;
-    private int ClientId;
-    private LocalDate SaleDate;
-    private double SaleTotal;
+    private int saleId;
+    private int clientId;
+    private LocalDate saleDate;
+    private double saleTotal;
 }

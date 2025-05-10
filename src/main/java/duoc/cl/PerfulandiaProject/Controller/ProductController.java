@@ -1,11 +1,9 @@
 package duoc.cl.PerfulandiaProject.Controller;
 
-
 import duoc.cl.PerfulandiaProject.Model.Product;
 import duoc.cl.PerfulandiaProject.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/products")
@@ -33,6 +31,7 @@ public class ProductController {
     public String deleteProduct(@PathVariable int id){
         return productService.deleteProduct(id);
     }
+
     @PutMapping("/{id}")
     public String updateProduct(@PathVariable int id, @RequestBody Product product){
         return productService.updateProduct(id, product);
