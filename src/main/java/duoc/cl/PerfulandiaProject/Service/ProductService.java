@@ -11,23 +11,70 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    //Listar
+    public String getAllProducts(){
+        String output="";
+
+        for(Product product:productRepository.findAll()){
+            output+="ID Producto: "+product.getProductId()+"\n";
+            output+="Nombre: "+product.getProductName()+"\n";
+            output+="Descripcion: "+product.getProductDescription()+"\n";
+            output+="Precio: $"+product.getProductPrice()+"\n";
+        }
+        if(output.isEmpty()){
+            return "No hay productos registrados";
+        }else{
+            return output;
+        }
+    }
+
+    //Buscar
+    public String getProductById(int id){
+        String output="";
+        if(productRepository.existsById(id)){
+            Product buscado=productRepository.findById(id).get();
+            output+="ID Producto: "+buscado.getProductId()+"\n";
+            output+="Nombre: "+buscado.getProductName()+"\n";
+            output+="Descripcion: "+buscado.getProductDescription()+"\n";
+            output+="Precio: $"+buscado.getProductPrice()+"\n";
+            return output;
+        }else{
+            return "Producto no encontrado";
+        }
+    }
+
+    //Agregar
     public String addProduct(Product product) {
-        return productRepository.addProduct(product);
+
+        if(!productRepository.existsById(product.getProductId())){
+            productRepository.save(product);
+            return "Producto agregado correctamente";
+        }else{
+            return "Producto ya existe";
+        }
     }
 
+    //Eliminar
     public String deleteProduct(int id) {
-        return productRepository.removeProduct(id);
+        if(productRepository.existsById(id)){
+            productRepository.deleteById(id);
+            return "Producto eliminado correctamente";
+        }else{
+            return "Producto no encontrado";
+        }
     }
 
-    public String getAllProducts() {
-        return productRepository.getAllProducts();
-    }
-
-    public String getProductById(int id) {
-        return productRepository.getProductById(id);
-    }
-
-    public String updateProduct(int id, Product product) {
-        return productRepository.updateProduct(id, product);
+    //Actualizar
+    public String updateProduct(int id,Product product) {
+        if(productRepository.existsById(id)){
+            Product buscado=productRepository.findById(id).get();
+            buscado.setProductName(product.getProductName());
+            buscado.setProductDescription(product.getProductDescription());
+            buscado.setProductPrice(product.getProductPrice());
+            productRepository.save(buscado);
+            return "Producto actualizado correctamente";
+        }else{
+            return "Producto no encontrado";
+        }
     }
 }

@@ -3,8 +3,8 @@ package duoc.cl.PerfulandiaProject.Controller;
 import duoc.cl.PerfulandiaProject.Model.Sale;
 import duoc.cl.PerfulandiaProject.Service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/sales")
@@ -18,9 +18,10 @@ public class SaleController {
         return saleService.getAllSales();
     }
 
-    @PostMapping
-    public String registerSale(@RequestBody Sale sale) {
-        return saleService.registerSale(sale);
+    @PostMapping  // No es necesario especificar "/sales" ya que ya está en el nivel de clase
+    public ResponseEntity<String> addSale(@RequestBody Sale sale) {
+        String result = saleService.addSale(sale);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{id}")
@@ -37,5 +38,4 @@ public class SaleController {
     public String updateSale(@PathVariable int id, @RequestBody Sale sale) {
         return saleService.updateSale(id, sale);
     }
-
 }

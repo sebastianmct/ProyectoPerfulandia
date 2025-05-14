@@ -14,14 +14,10 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping
-    public String getAllClients(){
-        return clientService.getAllClients();
-    }
+    public String getAllClients(){return clientService.getAllClients();}
 
     @PostMapping
-    public String addClient(@RequestBody Client client){
-        return clientService.addClient(client);
-    }
+    public String addClient(@RequestBody Client client){return clientService.addClient(client);}
 
     @GetMapping("/{id}")
     public String getClientById(@PathVariable int id){
@@ -35,6 +31,6 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public String updateClient(@PathVariable int id, @RequestBody Client client){
-        return clientService.updateProduct(id, client);
+        return clientService.updateClient(id, client);
     }
 }
