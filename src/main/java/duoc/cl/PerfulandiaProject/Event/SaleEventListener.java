@@ -22,20 +22,17 @@ public class SaleEventListener {
     public void handleSaleRegistered(SaleRegisteredEvent event) {
         System.out.println("Evento recibido: Venta registrada para el cliente ID: " + event.getClientId());
 
-        // Logic to update stock
         for (int productId : event.getProductIds()) {
-            // Assuming ubicationId is 1 for simplicity.  You'll need logic to determine the correct ubicationId.
             StockId stockId = new StockId(productId, 1);
             Optional<Stock> stockOptional = stockRepository.findById(stockId);
             if (stockOptional.isPresent()) {
                 Stock stock = stockOptional.get();
-                int quantitySold = 1; // Assuming 1 quantity sold per product.  You'll need to get the actual quantity from SalesLine
+                int quantitySold = 1;
                 int newQuantity = stock.getQuantityDisponible() - quantitySold;
                 stock.setQuantityDisponible(newQuantity);
                 stockRepository.save(stock);
 
-                // Publish the inventory updated event
-                UpdatedInventoryEvent updateEvent = new UpdatedInventoryEvent(productId, 1, newQuantity); // Assuming ubicationId is 1
+                UpdatedInventoryEvent updateEvent = new UpdatedInventoryEvent(productId, 1, newQuantity);
                 publisher.publishEvent(updateEvent);
                 System.out.println("Stock actualizado para el producto ID: " + productId + ", Nueva cantidad: " + newQuantity);
             } else {

@@ -61,7 +61,7 @@ public class SaleService {
                 nuevaVenta.getClientId(),
                 nuevaVenta.getSaleDate(),
                 nuevaVenta.getSaleTotal(),
-                productIds // Include product IDs in the event
+                productIds
         );
         publisher.publishEvent(event);
 

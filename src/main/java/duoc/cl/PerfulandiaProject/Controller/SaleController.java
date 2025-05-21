@@ -18,7 +18,7 @@ public class SaleController {
         return saleService.getAllSales();
     }
 
-    @PostMapping  // No es necesario especificar "/sales" ya que ya está en el nivel de clase
+    @PostMapping
     public ResponseEntity<String> addSale(@RequestBody Sale sale) {
         String result = saleService.addSale(sale);
         return ResponseEntity.ok(result);
