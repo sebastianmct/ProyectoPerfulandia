@@ -95,12 +95,19 @@ public class UbicationController {
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUbication(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Void>> deleteUbication(@PathVariable int id) {
         return ubicationRepository.findById(id)
                 .map(existing -> {
                     ubicationRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
+
+                    EntityModel<Void> response = EntityModel.of(null,
+                            linkTo(methodOn(UbicationController.class).getAllUbications()).withRel("all-ubications"),
+                            linkTo(methodOn(UbicationController.class).addUbication(null)).withRel("add-ubication")
+                    );
+
+                    return ResponseEntity.ok(response);
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
 }

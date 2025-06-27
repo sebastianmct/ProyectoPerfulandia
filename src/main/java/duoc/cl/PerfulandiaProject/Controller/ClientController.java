@@ -88,12 +88,18 @@ public class ClientController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Void>> deleteClient(@PathVariable int id) {
         return clientRepository.findById(id)
                 .map(client -> {
                     clientRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
+
+                    EntityModel<Void> response = EntityModel.of(null,
+                            linkTo(methodOn(ClientController.class).getAllClients()).withRel("all-clients"),
+                            linkTo(methodOn(ClientController.class).addClient(null)).withRel("add-client"));
+
+                    return ResponseEntity.ok(response);
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
 }

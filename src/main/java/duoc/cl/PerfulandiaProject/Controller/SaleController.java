@@ -98,12 +98,18 @@ public class SaleController {
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSale(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Void>> deleteSale(@PathVariable int id) {
         return saleRepository.findById(id)
                 .map(existing -> {
                     saleRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
+
+                    EntityModel<Void> response = EntityModel.of(null,
+                            linkTo(methodOn(SaleController.class).getAllSales()).withRel("all-sales"),
+                            linkTo(methodOn(SaleController.class).addSale(null)).withRel("add-sale"));
+
+                    return ResponseEntity.ok(response);
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
 }

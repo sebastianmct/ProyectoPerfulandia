@@ -97,12 +97,18 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Void>> deleteProduct(@PathVariable int id) {
         return productRepository.findById(id)
                 .map(product -> {
                     productRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
+
+                    EntityModel<Void> response = EntityModel.of(null,
+                            linkTo(methodOn(ProductController.class).getAllProducts()).withRel("all-products"),
+                            linkTo(methodOn(ProductController.class).addProduct(null)).withRel("add-product"));
+
+                    return ResponseEntity.ok(response);
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+
 }

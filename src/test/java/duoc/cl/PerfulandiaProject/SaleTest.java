@@ -1,26 +1,25 @@
 package duoc.cl.PerfulandiaProject;
 
+import duoc.cl.PerfulandiaProject.Controller.SaleControllerV2;
 import duoc.cl.PerfulandiaProject.Service.SaleService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(SaleControllerV2.class)
 public class SaleTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    @MockitoBean
-    SaleService saleService;
+    @MockBean
+    private SaleService saleService;
 
     @Test
     void testGetAllSales() throws Exception {
@@ -58,7 +57,7 @@ public class SaleTest {
                 }
                 """;
 
-        Mockito.when(saleService.addSale(Mockito.any())).thenReturn("Venta agregada");
+        Mockito.when(saleService.addSale(Mockito.any())).thenReturn("Venta registrada correctamente y evento disparado");
 
         mockMvc.perform(post("/sales")
                         .contentType("application/json")
@@ -70,12 +69,12 @@ public class SaleTest {
     @Test
     void testAddSale_Invalid() throws Exception {
         String json = """
-                {
-                    "clientId": 0,
-                    "saleDate": "bad-date",
-                    "saleTotal": -1000.0
-                }
-                """;
+            {
+                "clientId": 0,
+                "saleDate": "2024-06-22",
+                "saleTotal": -1000.0
+            }
+            """;
 
         Mockito.when(saleService.addSale(Mockito.any())).thenReturn("Error: datos inválidos");
 
@@ -85,6 +84,7 @@ public class SaleTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Error: datos inválidos"));
     }
+
 
     @Test
     void testUpdateSale() throws Exception {
@@ -96,8 +96,7 @@ public class SaleTest {
                 }
                 """;
 
-        Mockito.when(saleService.updateSale(Mockito.eq(1), Mockito.any()))
-                .thenReturn("Venta actualizada");
+        Mockito.when(saleService.updateSale(Mockito.eq(1), Mockito.any())).thenReturn("Venta actualizada correctamente");
 
         mockMvc.perform(put("/sales/1")
                         .contentType("application/json")
@@ -108,7 +107,7 @@ public class SaleTest {
 
     @Test
     void testDeleteSale() throws Exception {
-        Mockito.when(saleService.deleteSale(1)).thenReturn("Venta eliminada");
+        Mockito.when(saleService.deleteSale(1)).thenReturn("Venta eliminada correctamente");
 
         mockMvc.perform(delete("/sales/1"))
                 .andExpect(status().isOk())

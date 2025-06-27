@@ -1,19 +1,18 @@
 package duoc.cl.PerfulandiaProject;
 
+import duoc.cl.PerfulandiaProject.Controller.ProductControllerV2;
 import duoc.cl.PerfulandiaProject.Service.ProductService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(controllers = ProductControllerV2.class)
 public class ProductTest {
 
     @Autowired
@@ -42,7 +41,7 @@ public class ProductTest {
 
     @Test
     void testGetProductById_NotFound() throws Exception {
-        Mockito.when(productService.getProductById(999)).thenReturn(null);
+        Mockito.when(productService.getProductById(999)).thenReturn("Producto no encontrado");
 
         mockMvc.perform(get("/products/999"))
                 .andExpect(status().isNotFound());
@@ -58,13 +57,13 @@ public class ProductTest {
                 }
                 """;
 
-        Mockito.when(productService.addProduct(Mockito.any())).thenReturn("Producto agregado");
+        Mockito.when(productService.addProduct(Mockito.any())).thenReturn("Producto agregado correctamente");
 
         mockMvc.perform(post("/products")
                         .contentType("application/json")
                         .content(json))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Producto agregado"));
+                .andExpect(content().string("Producto agregado correctamente"));
     }
 
     @Test
@@ -77,7 +76,7 @@ public class ProductTest {
                 }
                 """;
 
-        Mockito.when(productService.addProduct(Mockito.any())).thenReturn("Error: datos inválidos");
+        Mockito.when(productService.addProduct(Mockito.any())).thenReturn("Producto ya existe");
 
         mockMvc.perform(post("/products")
                         .contentType("application/json")
@@ -88,7 +87,7 @@ public class ProductTest {
 
     @Test
     void testDeleteProduct() throws Exception {
-        Mockito.when(productService.deleteProduct(1)).thenReturn("Producto eliminado");
+        Mockito.when(productService.deleteProduct(1)).thenReturn("Producto eliminado correctamente");
 
         mockMvc.perform(delete("/products/1"))
                 .andExpect(status().isOk())
@@ -106,7 +105,7 @@ public class ProductTest {
                 """;
 
         Mockito.when(productService.updateProduct(Mockito.eq(1), Mockito.any()))
-                .thenReturn("Producto actualizado");
+                .thenReturn("Producto actualizado correctamente");
 
         mockMvc.perform(put("/products/1")
                         .contentType("application/json")

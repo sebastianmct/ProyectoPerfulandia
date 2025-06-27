@@ -1,26 +1,25 @@
 package duoc.cl.PerfulandiaProject;
 
+import duoc.cl.PerfulandiaProject.Controller.UbicationControllerV2;
 import duoc.cl.PerfulandiaProject.Service.UbicationService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(UbicationControllerV2.class)
 public class UbicationTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockitoBean
-    UbicationService ubicationService;
+    private UbicationService ubicationService;
 
     @Test
     void testGetAllUbications() throws Exception {
@@ -42,7 +41,7 @@ public class UbicationTest {
 
     @Test
     void testGetUbicationById_NotFound() throws Exception {
-        Mockito.when(ubicationService.getUbicationById(999)).thenReturn(null);
+        Mockito.when(ubicationService.getUbicationById(999)).thenReturn("Ubicacion no encontrada");
 
         mockMvc.perform(get("/ubications/999"))
                 .andExpect(status().isNotFound());
@@ -57,7 +56,7 @@ public class UbicationTest {
                 """;
 
         Mockito.when(ubicationService.addUbication(Mockito.any()))
-                .thenReturn("Ubicación agregada");
+                .thenReturn("Ubicación agregada correctamente");
 
         mockMvc.perform(post("/ubications")
                         .contentType("application/json")
@@ -75,12 +74,22 @@ public class UbicationTest {
                 """;
 
         Mockito.when(ubicationService.updateUbication(Mockito.eq(1), Mockito.any()))
-                .thenReturn("Ubicación actualizada");
+                .thenReturn("Ubicación actualizada correctamente");
 
         mockMvc.perform(put("/ubications/1")
                         .contentType("application/json")
                         .content(json))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Ubicación actualizada"));
+    }
+
+    @Test
+    void testDeleteUbication() throws Exception {
+        Mockito.when(ubicationService.deleteUbication(1))
+                .thenReturn("Ubicación eliminada correctamente");
+
+        mockMvc.perform(delete("/ubications/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Ubicación eliminada"));
     }
 }
