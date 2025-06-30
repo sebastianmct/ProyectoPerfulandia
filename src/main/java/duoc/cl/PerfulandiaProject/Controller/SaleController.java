@@ -4,6 +4,7 @@ import duoc.cl.PerfulandiaProject.Assemblers.SaleModelAssembler;
 import duoc.cl.PerfulandiaProject.Model.Sale;
 import duoc.cl.PerfulandiaProject.Repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Profile("!test")
 @Tag(name = "CONTROLADOR PARA VENTAS", description = "Gestiona operaciones relacionadas con las ventas y sus detalles.")
 @RestController
 @RequestMapping("/sales")
