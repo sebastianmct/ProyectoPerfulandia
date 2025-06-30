@@ -11,6 +11,10 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    public ClientService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+
     //Listar
     public String getAllClients(){
         String output="";
